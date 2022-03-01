@@ -30,5 +30,25 @@ const showDetails = details => {
     const url = ` https://openapi.programming-hero.com/api/phone/${details}`
     fetch(url)
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => displayDetails(data))
+}
+const displayDetails = info =>{
+    const details = info.data;
+    console.log(details)
+    const detailsContainer = document.getElementById('details-container');
+    const div = document.createElement('div');
+    div.innerHTML=`
+    <div class="card mb-3">
+    <img src="${details.image}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">${details.name}</h5>
+      <p class="card-text">Release Date:${details.releaseDate}</p>
+      <p class="card-text">Main features</p>
+      <p class="card-text">Storage:${details.mainFeatures.storage}</p>
+      <p class="card-text">Display Size:${details.mainFeatures.displaySiz}</p>
+      <p class="card-text">Chipset:${details.mainFeatures.chipSet}</p>
+      <p class="card-text">Memory:${details.mainFeatures.memory}</p>
+    </div>
+    `
+    detailsContainer.appendChild(div)
 }
