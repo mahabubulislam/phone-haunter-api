@@ -17,14 +17,20 @@
     <header>
         <h1 class="text-center logo">Phone Finder</h1>
     </header>
-   <main>
-    <div class="input-group my-3 w-75 mx-auto ">
-        <input type="text" class="form-control" id="input" placeholder="Find what phone you want">
-        <div class="input-group-append">
-            <button class="btn btn-outline-success" type="button" onclick="searchPhone()">Search</button>
+    <main>
+        <!-- Search area -->
+        <div class="input-group my-3 w-75 mx-auto ">
+            <input type="text" class="form-control" id="input" placeholder="Find what phone you want">
+            <div class="input-group-append">
+                <button class="btn btn-outline-success" type="button" onclick="searchPhone()">Search</button>
+            </div>
         </div>
-    </div>
-   </main>
+        <!-- Card -->
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="phone-container">
+            
+        </div>
+
+    </main>
 
     <!-- Bootstrap script  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
