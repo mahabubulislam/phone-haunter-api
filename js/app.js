@@ -5,11 +5,15 @@ const searchPhone = () => {
     fetch(url)
         .then(response => response.json())
         .then(data => displayPhone(data))
+        input.value=''
 }
 const displayPhone = allPhones => {
     const phoneContainer = document.getElementById('phone-container')
+    phoneContainer.textContent=''
+    const detailsContainer = document.getElementById('details-container');
+    detailsContainer.innerText=''
     const phones = allPhones.data;
-    phones.forEach(phone => {
+    phones.slice(0,20).forEach(phone => {
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
@@ -36,6 +40,7 @@ const displayDetails = info => {
     const details = info.data;
     console.log(details)
     const detailsContainer = document.getElementById('details-container');
+    detailsContainer.innerText=''
     const div = document.createElement('div');
     div.classList.add('details')
     div.innerHTML = `
@@ -48,7 +53,7 @@ const displayDetails = info => {
                 <div class="card-body">
                     <h5 class="card-title">${details.name}</h5>
                     <p class="card-text">Release Date: ${details.releaseDate}</p>
-                    <p class="card-text fw-bold fst-italic">Main features</p>
+                    <p class="card-text fw-bold fst-italic text-decoration-underline">Main features</p>
                     <p class="card-text"><span class="fw-bold">Storage: </span> ${details.mainFeatures.storage}</p>
                     <p class="card-text"><span class="fw-bold">Display Size:</span> ${details.mainFeatures.displaySize}</p>
                     <p class="card-text"><span class="fw-bold">Chipset:</span> ${details.mainFeatures.chipSet}</p>
@@ -59,4 +64,5 @@ const displayDetails = info => {
         </div>
                 `
     detailsContainer.appendChild(div)
+    location.href = "#details-container";
 }
