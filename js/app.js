@@ -71,7 +71,6 @@ const displayDetails = info => {
     // Sensors loaded
     const sensors = details.mainFeatures.sensors
     const sensorInfo = sensors.join();
-    console.log(details.mainFeatures.sensors)
     // clear data 
     const detailsContainer = clearData('details-container')
     // display details 
@@ -83,20 +82,32 @@ const displayDetails = info => {
                 <img src="${details.image}" class="img-fluid rounded-start m-2" alt="...">
               </div>
               <div class="col-md-8">
-                <div class="card-body" id="details-info">
+                <div class="card-body">
                     <h5 class="card-title">${details.name}</h5>
-                    <p class="card-text"><span class="fw-bold">Release Date:</span> ${details.releaseDate, details.releaseDate ? details.releaseDate : 'coming soon'}</p>
+                    <p class="card-text"><span class="fw-bold">Release Date:</span> ${details.releaseDate, details.releaseDate ? details.releaseDate : 'Coming soon'}</p>
                     <p class="card-text fw-bold fst-italic text-decoration-underline">Main features:</p>
                     <p class="card-text"><span class="fw-bold">Storage: </span> ${details.mainFeatures.storage}</p>
                     <p class="card-text"><span class="fw-bold">Display Size:</span> ${details.mainFeatures.displaySize}</p>
                     <p class="card-text"><span class="fw-bold">Chipset:</span> ${details.mainFeatures.chipSet}</p>
                     <p class="card-text"><span class="fw-bold">Memory:</span> ${details.mainFeatures.memory}</p>
                     <p class="card-text"><span class="fw-bold">Sensors:</span> ${sensorInfo}</p>
+                    <p class="card-text"><span class="fw-bold">Others:</span><span id="details-info"></span></p>
                 </div>
               </div>
             </div>
         </div>
-                ` 
+                `
     detailsContainer.appendChild(div)
+      // Others loaded
+      const others = details.others
+      for (const other in others) {
+          const detailsInfoCard = document.getElementById('details-info')
+          const otherInfo = (`${other}: ${others[other]}`)
+          const p = document.createElement('p')
+          p.innerHTML=`
+          <span>${otherInfo}</span>
+          `  
+          detailsInfoCard.appendChild(p)
+      }
     location.href = "#details-container";
 }
