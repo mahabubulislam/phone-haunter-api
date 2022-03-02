@@ -35,7 +35,6 @@ const searchPhone = () => {
         // Clear input field
         input.value = ''
     }
-    
 }
 // function for display all phones in ui
 const displayPhone = allPhones => {
@@ -84,7 +83,6 @@ const displayDetails = info => {
     const details = info.data;
     // Sensors loaded
     const sensors = details.mainFeatures.sensors;
-    console.log(sensors);
     const sensorInfo = sensors.join();
     // clear data 
     const detailsContainer = clearData('details-container')
