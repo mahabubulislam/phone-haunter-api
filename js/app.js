@@ -4,13 +4,22 @@ const clearData = inputID => {
     inputContainer.textContent = '';
     return inputContainer;
 }
+// Loading toggle 
+const loadingSpinner = displayStyle => {
+    document.getElementById('loading').style.display = displayStyle;
+}
+const toggleSearchResult = displayStyle => {
+    document.getElementById('details-container').style.display = displayStyle;
+}
 // Function for search phone and load data 
 const searchPhone = () => {
     const input = document.getElementById('input');
     const inputText = input.value;
+    loadingSpinner('block')
     // Show error messages 
     const errorMessages = document.getElementById('error');
     if (inputText == '') {
+        loadingSpinner('none')
         errorMessages.innerText = 'Ooh ho!!! You forgot to type a phone name'
         // Clear previous data
         clearData('phone-container')
@@ -26,6 +35,7 @@ const searchPhone = () => {
         // Clear input field
         input.value = ''
     }
+    
 }
 // function for display all phones in ui
 const displayPhone = allPhones => {
@@ -57,9 +67,13 @@ const displayPhone = allPhones => {
             phoneContainer.appendChild(div)
         });
     }
+    loadingSpinner('none')
 }
 // Load details
 const showDetails = details => {
+    location.href = "#header";
+    loadingSpinner('block')
+    toggleSearchResult('none')
     const url = ` https://openapi.programming-hero.com/api/phone/${details}`
     fetch(url)
         .then(response => response.json())
@@ -69,30 +83,34 @@ const showDetails = details => {
 const displayDetails = info => {
     const details = info.data;
     // Sensors loaded
-    const sensors = details.mainFeatures.sensors
+    const sensors = details.mainFeatures.sensors;
+    console.log(sensors);
     const sensorInfo = sensors.join();
     // clear data 
     const detailsContainer = clearData('details-container')
     // display details 
     const div = document.createElement('div');
     div.innerHTML = `
-        <div class="card mb-3 w-100 mx-auto" style="max-width: 540px;">
+        <div class="card mb-3 w-100 mx-auto" style="max-width: 960px;">
             <div class="row g-0 align-items-center">
               <div class="col-md-4">
                 <img src="${details.image}" class="img-fluid rounded-start m-2" alt="...">
               </div>
               <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">${details.name}</h5>
-                    <p class="card-text"><span class="fw-bold">Release Date:</span> ${details.releaseDate, details.releaseDate ? details.releaseDate : 'Coming soon'}</p>
-                    <p class="card-text fw-bold fst-italic text-decoration-underline">Main features:</p>
-                    <p class="card-text"><span class="fw-bold">Storage: </span> ${details.mainFeatures.storage}</p>
-                    <p class="card-text"><span class="fw-bold">Display Size:</span> ${details.mainFeatures.displaySize}</p>
-                    <p class="card-text"><span class="fw-bold">Chipset:</span> ${details.mainFeatures.chipSet}</p>
-                    <p class="card-text"><span class="fw-bold">Memory:</span> ${details.mainFeatures.memory}</p>
-                    <p class="card-text"><span class="fw-bold">Sensors:</span> ${sensorInfo}</p>
-                    <p class="card-text"><span class="fw-bold">Others:</span><span id="details-info"></span></p>
-                </div>
+                <div class="card-body row">
+                        <div class="col-md-6">
+                            <h5 class="card-title">${details.name}</h5>
+                            <p class="card-text"><span class="fw-bold">Release Date:</span> ${details.releaseDate, details.releaseDate ? details.releaseDate : 'Coming soon'}</p>
+                            <p class="card-text fw-bold fst-italic text-decoration-underline">Main features:</p>
+                            <p class="card-text"><span class="fw-bold">Storage: </span> ${details.mainFeatures.storage}</p>
+                            <p class="card-text"><span class="fw-bold">Display Size:</span> ${details.mainFeatures.displaySize}</p>
+                            <p class="card-text"><span class="fw-bold">Chipset:</span> ${details.mainFeatures.chipSet}</p>
+                            <p class="card-text"><span class="fw-bold">Memory:</span> ${details.mainFeatures.memory}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="card-text"><span class="fw-bold">Sensors:</span> ${sensorInfo}</p>
+                            <p class="card-text" id="other-text"><span class="fw-bold">Others:</span><span id="details-info"></span></p>
+                        </div>
               </div>
             </div>
         </div>
@@ -100,6 +118,10 @@ const displayDetails = info => {
     detailsContainer.appendChild(div)
       // Others loaded
       const others = details.others
+      if(others== undefined){
+          document.getElementById('other-text').style.display='none'
+      }
+      else{
       for (const other in others) {
           const detailsInfoCard = document.getElementById('details-info')
           const otherInfo = (`${other}: ${others[other]}`)
@@ -109,5 +131,7 @@ const displayDetails = info => {
           `  
           detailsInfoCard.appendChild(p)
       }
-    location.href = "#details-container";
+    }
+    loadingSpinner('none')
+    toggleSearchResult('block')
 }

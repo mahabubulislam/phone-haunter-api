@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <header>
+    <header id="header">
         <h1 class="text-center  logo">Phone Finder</h1>
     </header>
     <main class="container mx-auto">
@@ -24,6 +24,10 @@
             <div class="input-group-append">
                 <button class="btn btn-outline-success" type="button" onclick="searchPhone()">Search</button>
             </div>
+        </div>
+        <!-- Loading images -->
+        <div id="loading" class="w-25 mx-auto">
+            <img src="images/loading.gif" class="mx-auto w-100" alt="">
         </div>
         <!-- Error Messages -->
         <h1 class="text-center text-danger" id="error"></h1>
