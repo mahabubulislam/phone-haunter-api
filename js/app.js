@@ -4,10 +4,11 @@ const clearData = inputID => {
     inputContainer.textContent = '';
     return inputContainer;
 }
+// Function for search phone and load data 
 const searchPhone = () => {
     const input = document.getElementById('input');
     const inputText = input.value;
-      // Show error messages 
+    // Show error messages 
     const errorMessages = document.getElementById('error');
     if (inputText == '') {
         errorMessages.innerText = 'Ooh ho!!! You forgot to type a phone name'
@@ -26,17 +27,18 @@ const searchPhone = () => {
         input.value = ''
     }
 }
+// function for display all phones in ui
 const displayPhone = allPhones => {
     // Clear data
     const phoneContainer = clearData('phone-container')
     const detailsContainer = clearData('details-container')
-        // Show error messages 
+    // Show error messages 
     const errorMessages = document.getElementById('error');
     const phones = allPhones.data;
     if (phones.length == 0) {
         errorMessages.innerText = "Oops!!! Phone didn't find, try searching with differents keyword"
     }
-        // Display data
+    // Display data
     else {
         errorMessages.innerText = ''
         phones.slice(0, 20).forEach(phone => {
@@ -56,20 +58,24 @@ const displayPhone = allPhones => {
         });
     }
 }
+// Load details
 const showDetails = details => {
     const url = ` https://openapi.programming-hero.com/api/phone/${details}`
     fetch(url)
         .then(response => response.json())
         .then(data => displayDetails(data))
 }
+// function for displaying phone details in ui 
 const displayDetails = info => {
     const details = info.data;
-    console.log(details)
+    // Sensors loaded
+    const sensors = details.mainFeatures.sensors
+    const sensorInfo = sensors.join();
+    console.log(details.mainFeatures.sensors)
     // clear data 
     const detailsContainer = clearData('details-container')
     // display details 
     const div = document.createElement('div');
-    div.classList.add('details')
     div.innerHTML = `
         <div class="card mb-3 w-100 mx-auto" style="max-width: 540px;">
             <div class="row g-0 align-items-center">
@@ -77,19 +83,20 @@ const displayDetails = info => {
                 <img src="${details.image}" class="img-fluid rounded-start m-2" alt="...">
               </div>
               <div class="col-md-8">
-                <div class="card-body">
+                <div class="card-body" id="details-info">
                     <h5 class="card-title">${details.name}</h5>
                     <p class="card-text"><span class="fw-bold">Release Date:</span> ${details.releaseDate, details.releaseDate ? details.releaseDate : 'coming soon'}</p>
-                    <p class="card-text fw-bold fst-italic text-decoration-underline">Main features</p>
+                    <p class="card-text fw-bold fst-italic text-decoration-underline">Main features:</p>
                     <p class="card-text"><span class="fw-bold">Storage: </span> ${details.mainFeatures.storage}</p>
                     <p class="card-text"><span class="fw-bold">Display Size:</span> ${details.mainFeatures.displaySize}</p>
                     <p class="card-text"><span class="fw-bold">Chipset:</span> ${details.mainFeatures.chipSet}</p>
                     <p class="card-text"><span class="fw-bold">Memory:</span> ${details.mainFeatures.memory}</p>
+                    <p class="card-text"><span class="fw-bold">Sensors:</span> ${sensorInfo}</p>
                 </div>
               </div>
             </div>
         </div>
-                `
+                ` 
     detailsContainer.appendChild(div)
     location.href = "#details-container";
 }
